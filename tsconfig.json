@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "noImplicitAny": false,
+        "sourceMap": false,
+        "declaration": true,
+        "rootDir": "src",
+        "outDir": "."
+    },
+    "exclude": [
+        "node_modules",
+        "backtrace.d.ts"
+    ]
+}
