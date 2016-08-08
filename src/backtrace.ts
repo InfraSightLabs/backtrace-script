@@ -49,7 +49,12 @@ class MessageQueue {
         request.open('POST', this.captureUrl, true);
         request.setRequestHeader('Content-Type', 'application/json');
         request.send(JSON.stringify(this.wrapQueue()));
-        this.queue = [];
+
+        request.addEventListener('readystatechange', (): void => {
+            if (request.readyState === 4 && request.status === 200) {
+                this.queue = [];
+            }
+        }, true);
     }
 
     private wrapQueue() {
@@ -142,6 +147,7 @@ class Metadata {
 /*
     TODO
     config -> interval, capture url, capacity (sliding window size -- if interval capacity reached will trigger push and reset interval)
+    incremental retry if capture failed
     online/offline support
 */
 class Backtrace {
