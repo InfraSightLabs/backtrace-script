@@ -16,7 +16,7 @@ class MessageQueue {
     public metadata: Metadata;
 
     private queue: BaseEvent[];
-    private captureUrl = 'http://localhost:3000/api/capture';
+    private captureUrl = null;
     private dependencies: IKeyValueStore;
     private uuid: string;
 
@@ -25,6 +25,10 @@ class MessageQueue {
         this.queue = [];
         this.dependencies = this.getDependencies();
         this.uuid = this.generateUuid();
+    }
+
+    public setCaptureUrl(url: string): void {
+        this.captureUrl = url;
     }
 
     public add(message: BaseEvent): BaseEvent {
@@ -37,7 +41,7 @@ class MessageQueue {
     }
 
     public send(): void {
-        if (this.queue.length === 0) {
+        if (this.queue.length === 0 || !this.captureUrl) {
             return;
         }
 
@@ -141,7 +145,7 @@ class Metadata {
     online/offline support
 */
 class Backtrace {
-    public static VERSION = '0.0.1';
+    public static VERSION = '0.0.4';
     public metadata: Metadata;
 
     private queue: MessageQueue;
@@ -156,6 +160,10 @@ class Backtrace {
 
     public custom(event: any, includeLocation?: boolean) {
         this.queue.add(new CustomEvent(event, includeLocation));
+    }
+
+    public setCaptureUrl(url: string): void {
+        this.queue.setCaptureUrl(url);
     }
 
     private flush(): void {
@@ -429,6 +437,12 @@ export interface IBacktrace {
      * @param {boolean} includeLocation Set location to current uri
      */
     custom(event: any, includeLocation?: boolean): void;
+
+    /**
+     * Set the URL for upload of event data
+     * @param {string} url Full URL to a capture endpoint
+     */
+    setCaptureUrl(url: string): void;
 }
 
 const bt = new Backtrace();
@@ -437,5 +451,6 @@ export const backtrace: IBacktrace = {
     version: Backtrace.VERSION,
     addMetadata: bt.metadata.set.bind(bt.metadata),
     getMetadata: bt.metadata.get.bind(bt.metadata),
-    custom: bt.custom.bind(bt)
+    custom: bt.custom.bind(bt),
+    setCaptureUrl: bt.setCaptureUrl.bind(bt)
 };
