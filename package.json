@@ -1,5 +1,5 @@
 {
-  "name": "backtrace",
+  "name": "@isl/backtrace",
   "version": "0.0.2",
   "description": "Track js errors",
   "author": "Fredrik Ullner <fredrik.ullner@infrasightlabs.com>",
