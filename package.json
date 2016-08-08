@@ -1,6 +1,6 @@
 {
   "name": "@isl/backtrace",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Track js errors",
   "author": "Fredrik Ullner <fredrik.ullner@infrasightlabs.com>",
   "license": "ISC",
