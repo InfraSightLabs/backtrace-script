@@ -151,7 +151,7 @@ class Metadata {
     online/offline support
 */
 class Backtrace {
-    public static VERSION = '0.0.6';
+    public static VERSION = '0.0.7';
     public metadata: Metadata;
 
     private queue: MessageQueue;
