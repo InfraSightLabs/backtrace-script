@@ -54,7 +54,7 @@ class MessageQueue {
 
     private wrapQueue() {
         return {
-            timestamp: Date.now(),
+            uploadTime: Date.now(),
             environment: {
                 uuid: this.uuid,
                 useragent: navigator.userAgent,
@@ -145,7 +145,7 @@ class Metadata {
     online/offline support
 */
 class Backtrace {
-    public static VERSION = '0.0.4';
+    public static VERSION = '0.0.5';
     public metadata: Metadata;
 
     private queue: MessageQueue;
