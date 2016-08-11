@@ -1,19 +1,12 @@
 {
   "name": "@isl/backtrace",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "description": "Track js errors",
   "author": "Fredrik Ullner <fredrik.ullner@infrasightlabs.com>",
   "license": "ISC",
   "main": "./backtrace.js",
   "typings": "./backtrace.d.ts",
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
-    "uglify": "uglifyjs dist/backtrace.js -o dist/backtrace.min.js -c -m",
-    "postversion": "cp -r package.json README.md dist/"
-  },
-  "devDependencies": {
-    "typescript": "^2.0.0",
-    "uglify-js": "^2.6.3"
+    "test": "exit 1"
   }
 }
