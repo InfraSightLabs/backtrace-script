@@ -62,7 +62,7 @@
         },
         generateUuid: function() {
             return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(character) {
-                const rand = 16 * Math.random() | 0;
+                var rand = 16 * Math.random() | 0;
                 return (character === 'x' ? rand : (rand & 3 | 8)).toString(16)
             });
         }
@@ -217,7 +217,7 @@
                         return send.apply(this, arguments);
                     }
 
-                    let xhrEvent = {
+                    var xhrEvent = {
                         timestamp: this._backtrace.timestamp,
                         type: 'xhr',
                         location: location.href,
