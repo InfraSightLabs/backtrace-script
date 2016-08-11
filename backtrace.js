@@ -15,7 +15,7 @@
         global.backtrace = new Backtrace(global, url);
     }
 })(window, function(global, captureUrl) {
-    var VERSION = '0.1.0';
+    var VERSION = '0.1.1';
     var INTERVAL = 10000;
     var metadata = {};
     var queue = [];
