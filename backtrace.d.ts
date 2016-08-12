@@ -82,6 +82,11 @@ interface IEvents {
      * @param {*} data Arbitrary data
      */
     push(type: string, data?: Object): void;
+
+    /**
+     * Immediately upload all events in the queue
+     */
+    flush(): void;
 }
 
 export = backtrace;

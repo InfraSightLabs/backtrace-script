@@ -15,7 +15,7 @@
         global.backtrace = new Backtrace(global, url);
     }
 })(window, function(global, captureUrl) {
-    var VERSION = '0.1.1';
+    var VERSION = '0.1.2';
     var INTERVAL = 10000;
     var metadata = {};
     var queue = [];
@@ -65,6 +65,26 @@
                 var rand = 16 * Math.random() | 0;
                 return (character === 'x' ? rand : (rand & 3 | 8)).toString(16)
             });
+        },
+        stripBaseUrl: function(url) {
+            var pattern = /^https?:\/\/[a-z\:0-9.]+/i;
+            var match = pattern.exec(url);
+
+            if (match !== null && match[0].length > 0) {
+                return url.replace(match[0], '');
+            }
+
+            return url;
+        },
+        getBaseUrl: function(url) {
+            var pattern = /^https?:\/\/[a-z\:0-9.]+/i;
+            var match = pattern.exec(url);
+
+            if (match !== null && match[0].length > 0) {
+                return match[0];
+            }
+
+            return url;
         }
     };
 
@@ -128,10 +148,10 @@
             queue.push({
                 timestamp: Date.now(),
                 type: 'error',
-                location: location.href,
-                line: event.line,
-                column: event.column,
-                filename: event.filename,
+                location: environment.stripBaseUrl(location.href),
+                line: event.lineno,
+                column: event.colno,
+                filename: environment.stripBaseUrl(event.filename),
                 message: event.message,
                 stack: event.stack
             });
@@ -145,7 +165,7 @@
                 queue.push({
                     timestamp: Date.now(),
                     type: 'click',
-                    location: location.href,
+                    location: environment.stripBaseUrl(location.href),
                     tag: target.tagName.toLowerCase(),
                     text: target.textContent.replace(/[\s\n]+/g, ' ').trim(),
                     attributes: this.getAttributes(target)
@@ -160,7 +180,7 @@
                 queue.push({
                     timestamp: Date.now(),
                     type: 'input',
-                    location: location.href,
+                    location: environment.stripBaseUrl(location.href),
                     tag: target.tagName.toLowerCase(),
                     value: target.type === 'password' ? null : {
                         length: target.value.length,
@@ -183,7 +203,7 @@
                             queue.push({
                                 timestamp: Date.now(),
                                 type: 'console',
-                                location: location.href,
+                                location: environment.stripBaseUrl(location.href),
                                 severity: methods[index],
                                 message: JSON.stringify(args)
                             });
@@ -220,7 +240,7 @@
                     var xhrEvent = {
                         timestamp: this._backtrace.timestamp,
                         type: 'xhr',
-                        location: location.href,
+                        location: environment.stripBaseUrl(location.href),
                         method: this._backtrace.method,
                         url: this._backtrace.url
                     };
@@ -341,7 +361,7 @@
             var event = {
                 timestamp: Date.now(),
                 type: type,
-                location: location.href
+                location: environment.stripBaseUrl(location.href)
             };
 
             if (includeLocation === false) {
@@ -357,6 +377,9 @@
             }
 
             queue.push(event);
+        },
+        flush: function() {
+            send();
         }
     };
 });
