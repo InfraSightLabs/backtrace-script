@@ -1,12 +1,15 @@
 {
   "name": "@isl/backtrace",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Track js errors",
   "author": "Fredrik Ullner <fredrik.ullner@infrasightlabs.com>",
   "license": "ISC",
   "main": "./backtrace.js",
   "typings": "./backtrace.d.ts",
   "scripts": {
-    "test": "exit 1"
+    "test": "http-server -p 4000"
+  },
+  "devDependencies": {
+    "http-server": "^0.9.0"
   }
 }

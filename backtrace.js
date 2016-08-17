@@ -15,7 +15,7 @@
         global.backtrace = new Backtrace(global, url);
     }
 })(window, function(global, captureUrl) {
-    var VERSION = '0.1.2';
+    var VERSION = '0.1.3';
     var INTERVAL = 10000;
     var metadata = {};
     var queue = [];
@@ -103,10 +103,7 @@
             return;
         }
 
-        var request = new XMLHttpRequest();
-        request.open('POST', captureUrl, true);
-        request.setRequestHeader('Content-Type', 'application/json');
-        request.send(JSON.stringify({
+        var data = {
             uploadTime: Date.now(),
             environment: {
                 dependencies: DEPENDENCIES,
@@ -119,7 +116,12 @@
             },
             metadata: metadata,
             events: queue
-        }));
+        };
+
+        var request = new XMLHttpRequest();
+        request.open('POST', captureUrl, true);
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.send(JSON.stringify(data));
 
         request.addEventListener('readystatechange', function() {
             if (request.readyState === 4) {
@@ -144,13 +146,12 @@
 
     var listener = {
         onError: function(event) {
-            var timestamp = Date.now();
             queue.push({
                 timestamp: Date.now(),
                 type: 'error',
                 location: environment.stripBaseUrl(location.href),
-                line: event.lineno,
-                column: event.colno,
+                line: event.line,
+                column: event.column,
                 filename: environment.stripBaseUrl(event.filename),
                 message: event.message,
                 stack: event.stack
@@ -242,9 +243,12 @@
                         type: 'xhr',
                         location: environment.stripBaseUrl(location.href),
                         method: this._backtrace.method,
-                        url: this._backtrace.url
+                        url: environment.stripBaseUrl(this._backtrace.url)
                     };
-                    queue.push(xhrEvent);
+
+                    if (xhrEvent.url !== captureUrl) {
+                        queue.push(xhrEvent);
+                    }
 
                     this.addEventListener('readystatechange', function() {
                         if (this.readyState === 4) {
@@ -262,9 +266,23 @@
             };
         },
         init: function() {
+            var self = this;
+            var oldErr = global.onerror || function() {};
+
             global.addEventListener('click', this.onClick.bind(this), true);
             global.addEventListener('blur', this.onBlur.bind(this), true);
-            global.addEventListener('error', this.onError.bind(this), true);
+
+            global.onerror = function(message, source, lineno, colno, error) {
+                try {
+                    error = error || {};
+                    error.message = error.message || message;
+                    error.line = error.lineno || parseInt(lineno, 10);
+                    error.column = error.colno || parseInt(colno, 10);
+                    error.filename = error.filename || source;
+                    self.onError(error);
+                } catch (err) {}
+                oldErr.apply(global, arguments);
+            }
 
             this.patchXHR(XMLHttpRequest.prototype);
             this.patchConsole();
