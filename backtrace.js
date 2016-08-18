@@ -119,6 +119,8 @@
         };
 
         var request = new XMLHttpRequest();
+        var size = queue.length;
+
         request.open('POST', captureUrl, true);
         request.setRequestHeader('Content-Type', 'application/json');
         request.send(JSON.stringify(data));
@@ -126,7 +128,7 @@
         request.addEventListener('readystatechange', function() {
             if (request.readyState === 4) {
                 if (request.status === 200) {
-                    queue = [];
+                    queue.splice(0, size);
 
                     if (retriesCount) {
                         clearInterval(timer);
