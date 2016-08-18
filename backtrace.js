@@ -15,7 +15,7 @@
         global.backtrace = new Backtrace(global, url);
     }
 })(window, function(global, captureUrl) {
-    var VERSION = '0.1.3';
+    var VERSION = '0.1.4';
     var INTERVAL = 10000;
     var metadata = {};
     var queue = [];
@@ -67,7 +67,7 @@
             });
         },
         stripBaseUrl: function(url) {
-            var pattern = /^https?:\/\/[a-z\:0-9.]+/i;
+            var pattern = /^https?:\/\/[a-z0-9:.-]+/i;
             var match = pattern.exec(url);
 
             if (match !== null && match[0].length > 0) {
@@ -77,7 +77,7 @@
             return url;
         },
         getBaseUrl: function(url) {
-            var pattern = /^https?:\/\/[a-z\:0-9.]+/i;
+            var pattern = /^https?:\/\/[a-z0-9:.-]+/i;
             var match = pattern.exec(url);
 
             if (match !== null && match[0].length > 0) {
