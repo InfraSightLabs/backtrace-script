@@ -39,7 +39,7 @@ SOFTWARE.
         global.backtrace = new Backtrace(global, url);
     }
 })(window, function(global, captureUrl) {
-    var VERSION = '0.1.6';
+    var VERSION = '0.1.7';
     var INTERVAL = 30000;
     var metadata = {};
     var queue = [];

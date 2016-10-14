@@ -1,9 +1,13 @@
 {
-  "name": "@isl/backtrace",
-  "version": "0.1.6",
+  "name": "@infrasightlabs/backtrace",
+  "version": "0.1.7",
   "description": "Track javascript errors",
   "author": "Fredrik Ullner <fredrik.ullner@infrasightlabs.com>",
   "license": "MIT",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/InfraSightLabs/backtrace-script.git"
+  },
   "main": "./backtrace.js",
   "typings": "./backtrace.d.ts",
   "scripts": {}

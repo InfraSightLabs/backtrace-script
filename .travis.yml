@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+- '6'
+- '4'
+deploy:
+  provider: npm
+  email: "fredrik.ullner@infrasightlabs.com"
+  api_key:
+    secure: U85mcZX/GAKCjOkLjq1T594p/Rt0yh6DzKc1ZMd8naJNgQ5JMeY02PoKiEZKCJ35xpQs0PTF747ePI4/DqQXJ4+k2x3N/4Z8kFljxDJJjeC7P3VG9e5LWRK5REEOv1lJXJ46QHVXUP7WOPnAFxf+Ts9NcR8yP0+4Nyg0xRcwPEvnClKYjhm8WUpqihczx2leKb0nIASKljHBKhnGmMBG4gqGGFr5HVJc5yHSeJ5uOMz8TdYOYVGL2VrEcmtQoQhSHYVBfLkiLr0it8Bh9yj/n/FBzaRSmUEBfoSltWeknBBMtOuHsj8/0Uf92a1yyQO3p30kV9vc71tLRjb4qVfRbxNwXVRzpavkfIWXF52yxOqXv+LJIepjvAurKtc17mwDAfxnpOTY5CB/rjGR+t1Va05EOgBohDtIp47y3KzrL3iZre6e8hewPcV/qWMsDwN9OypTGNRE7vfoYSsDQRy86OmhdEhOreLaZikELVSZxCKCNKFQU22W6B1SYXRyNbW/RS+3TbhVOkJOlTCAArhj72oy3ijnsNFlp9KWuzlJK3soc/JPeERGxy5YsObaxrqkqStIK0HXcVyB0YwQig3wQwwzJMaeOaiSP/uAmF2YiPTZXCWWkl225wJ3oWHF2zp+yjEidiWAU2uxt4RRm59IFOyQ58fL1tkT4zT9/XeBbWo=
+  on:
+    tags: true
