@@ -1,7 +1,5 @@
 # Directories
-dist
 node_modules
-public
 
 # Files
 *.log
